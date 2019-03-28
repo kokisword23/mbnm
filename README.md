@@ -1,2 +1,0 @@
-# mbnm
-Java WEB project
