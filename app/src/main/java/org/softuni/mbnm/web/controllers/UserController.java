@@ -41,7 +41,10 @@ public class UserController extends BaseController {
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(@ModelAttribute UserRegisterBindingModel model) {
-        if (!model.getPassword().equals(model.getConfirmPassword())) {
+        if (!model.getPassword().equals(model.getConfirmPassword())
+                || model.getConfirmPassword().isEmpty()
+                || model.getUsername().isEmpty()
+                || model.getEmail().isEmpty()) {
             return super.view("register");
         }
 
