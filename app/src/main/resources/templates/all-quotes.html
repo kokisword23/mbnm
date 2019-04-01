@@ -30,9 +30,9 @@
                 <td class="col-md-2 text-center" th:text="${quotes.author}"></td>
                 <td class="col-md-2 text-center" th:text="${quotes.description}"></td>
                 <td class="col-md-3 text-center">
-                    <a th:href="@{/quotess/details/{id}(id=${quotes.id})}" class="btn btn-secondary font-weight-bold text-white">Details</a>
-                    <a th:href="@{/quotess/edit/{id}(id=${quotes.id})}" class="btn btn-success font-weight-bold text-white">Edit</a>
-                    <a th:href="@{/quotess/delete/{id}(id=${quotes.id})}" class="btn btn-danger font-weight-bold text-white">Delete</a>
+                    <a th:href="@{/quotes/details/{id}(id=${quotes.id})}" class="btn btn-secondary font-weight-bold text-white">Details</a>
+                    <a th:href="@{/quotes/edit/{id}(id=${quotes.id})}" class="btn btn-success font-weight-bold text-white">Edit</a>
+                    <a th:href="@{/quotes/delete/{id}(id=${quotes.id})}" class="btn btn-danger font-weight-bold text-white">Delete</a>
                 </td>
             </tr>
         </th:block>

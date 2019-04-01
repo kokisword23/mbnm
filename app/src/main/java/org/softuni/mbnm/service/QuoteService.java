@@ -15,5 +15,8 @@ public interface QuoteService {
 
     List<QuoteServiceModel> findAllQuotes();
 
+    QuoteServiceModel findQuoteById(String id);
+
+    void deleteQuote(String id);
 //    void seedQuotes(HttpSession session);
 }

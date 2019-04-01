@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <header>
+        <th:block th:include="~{fragments/nav-bar}"></th:block>
+    </header>
+    <main class="mt-3">
+        <div class="jumbotron bg-light text-center">
+            <div class="text-center">
+                <img th:src="${quote.imgUrl}" width="350" height="350" alt="quote">
+            </div>
+            <div class="row">
+                <div class="col col-md-12 mt-5">
+                    <h1 th:text="'Title: ' + ${quote.title}"></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-md-12">
+                    <h4 th:text="'Author: ' + ${quote.author}"></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-md-12 mt-3">
+                    <h4 th:text="'Desciption: ' + ${quote.description}"></h4>
+                </div>
+            </div>
+        </div>
+        <span style="visibility: hidden">....</span>
+    </main>
+    <footer>
+        <th:block th:include="~{fragments/footer}"></th:block>
+    </footer>
+</div>
+</body>
+</html>
