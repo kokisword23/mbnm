@@ -17,6 +17,10 @@ public class HomeController extends BaseController {
     @GetMapping("/home")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView home(){
+       //session.setAttribute("quotes",this.quoteRepository.findAll());
+
         return super.view("home");
     }
+
+
 }

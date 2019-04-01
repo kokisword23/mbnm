@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,19 @@ public class QuoteServiceImpl implements QuoteService {
                 .filter(q -> q.getAuthor().equals(author))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<QuoteServiceModel> findAllQuotes() {
+        return this.quoteRepository.findAll()
+                .stream()
+                .map(q -> this.modelMapper.map(q, QuoteServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+//    @Override
+//    public void seedQuotes(HttpSession session) {
+//        session.setAttribute("quotes",this.quoteRepository.findAll());
+//    }
 
 
 }

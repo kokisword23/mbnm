@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/quotes")
 public class QuoteController extends BaseController {
@@ -39,5 +42,17 @@ public class QuoteController extends BaseController {
         this.quoteService.createQuote(this.modelMapper.map(model, QuoteServiceModel.class));
 
         return super.redirect("/home");
+    }
+
+    @GetMapping("/all-quotes")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView showAll(ModelAndView modelAndView){
+        List<QuoteServiceModel> users = this.quoteService.findAllQuotes()
+                .stream()
+                .map(q -> this.modelMapper.map(q, QuoteServiceModel.class))
+                .collect(Collectors.toList());
+
+        modelAndView.addObject("quotes", users);
+        return super.view("all-quotes", modelAndView);
     }
 }

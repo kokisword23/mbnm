@@ -5,32 +5,32 @@
     <th:block th:include="~{fragments/head}"></th:block>
 </head>
 <body>
-<div class="container-fluid">
-    <header>
-        <th:block th:include="~{fragments/nav-bar}"></th:block>
-    </header>
-    <main class="mt-5">
-        <hr class="bg-hero hr-2"/>
-        <h1 class="text-center text-black"></h1>
-        <hr class="bg-hero w-25 hr-2"/>
-        <div class="row">
-            <div class="col col-md-12 text-center">
-                <h1 th:text="${model.username}"></h1>
+<header>
+    <th:block th:include="~{fragments/nav-bar}"></th:block>
+</header>
+<main class="mt-3">
+    <main class="mt-3">
+        <div class="jumbotron bg-light">
+            <div class="row">
+                <div class="col col-md-12 text-center">
+                    <h1 th:text="${model.username}"></h1>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col col-md-12 text-center">
-                <h4 th:text="${model.email}"></h4>
+            <div class="row">
+                <div class="col col-md-12 text-center">
+                    <h4 th:text="${model.email}"></h4>
+                </div>
             </div>
-        </div>
-        <hr class="bg-hero w-25 hr-2"/>
-        <div class="button-holder d-flex justify-content-center">
-            <a th:href="@{/users/edit}" class="btn bg-hero glow-button">Edit Profile</a>
+            <hr class="hr-2 bg-dark">
+            <div class="button-holder d-flex justify-content-center">
+                <a th:href="@{/users/edit}" class="btn btn-dark">Edit Profile</a>
+            </div>
         </div>
     </main>
-    <footer class="mt-4">
-        <th:block th:include="~{fragments/footer}"></th:block>
-    </footer>
-</div>
+</main>
+
+<footer class="mt-4">
+    <th:block th:include="~{fragments/footer}"></th:block>
+</footer>
 </body>
 </html>

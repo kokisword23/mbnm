@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<header>
+    <th:block th:include="~{fragments/nav-bar}"></th:block>
+</header>
+<main class="mt-3">
+    <h1 class="text-center text-dark">All quotes</h1>
+    <hr class="hr-2 bg-dark w-75">
+    <table class="table table-hover w-75 mx-auto">
+        <thead>
+        <tr class="row mx-auto">
+            <th class="col-md-1 text-center">#</th>
+            <th class="col-md-3 text-center">Image</th>
+            <th class="col-md-3 text-center">Title</th>
+            <th class="col-md-2 text-center">Author</th>
+            <th class="col-md-3 text-center">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="quotes, iter : ${quotes}">
+            <tr class="row mx-auto">
+                <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
+                <td class="col-md-3"><div class="text-center"><img th:src="${quotes.imgUrl}" width="40" height="40" alt="quotes"></div></td>
+                <td class="col-md-3 text-center" th:text="${quotes.title}"></td>
+                <td class="col-md-2 text-center" th:text="${quotes.author}"></td>
+                <td class="col-md-2 text-center" th:text="${quotes.description}"></td>
+                <td class="col-md-3 text-center">
+                    <a th:href="@{/quotess/details/{id}(id=${quotes.id})}" class="btn btn-secondary font-weight-bold text-white">Details</a>
+                    <a th:href="@{/quotess/edit/{id}(id=${quotes.id})}" class="btn btn-success font-weight-bold text-white">Edit</a>
+                    <a th:href="@{/quotess/delete/{id}(id=${quotes.id})}" class="btn btn-danger font-weight-bold text-white">Delete</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <hr class="hr-2 bg-dark">
+</main>
+<footer>
+    <th:block th:include="~{fragments/footer}"></th:block>
+</footer>
+</footer>
+</body>
+</html>

@@ -3,25 +3,37 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
-    <script src="/../js/showQuotes.js"></script>
 </head>
 <body>
 <header>
     <th:block th:include="~{fragments/nav-bar}"></th:block>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="/../js/showQuotes.js"></script>
 </header>
 <main>
     <div class="container-fluid">
-        <div class="row no-gutter">
+        <div id="toChange" class="row no-gutter">
             <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image-home"></div>
             <div class="col-md-8 col-lg-6">
                 <div class="login d-flex align-items-center py-5">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-9 col-lg-8 mx-auto">
-                                <h1 class="text-black">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</h1>
+                                <h1 class="text-black">Lorem Ipsum is simply dummy text of the printing and
+                                    typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                    ever since the 1500s, when an unknown printer took a galley of type and
+                                    scrambled it to make a type specimen book. It has survived not only five
+                                    centuries, but also the leap into electronic typesetting, remaining essentially
+                                    unchanged. It was popularised in the 1960s with the release of Letraset sheets
+                                    containing Lorem Ipsum passages, and more recently with desktop publishing
+                                    software like Aldus PageMaker including versions of Lorem Ipsum.</h1>
                                 <div class="button-holder mt-3 d-flex justify-content-center">
-                                    <button type="submit" id="q" class="btn bg-hero mr-4 glow-button justify-content-left">Show Quotes</button>
-                                    <button type="submit" class="btn bg-hero ml-4 glow-button justify-content-right">Show Videos</button>
+                                    <a class="btn bg-hero mr-4 glow-button justify-content-left" th:href="@{/quotes/all-quotes}">
+                                        Show Quotes
+                                    </a>
+                                    <a class="btn bg-hero ml-4 glow-button justify-content-right">
+                                        Show Videos
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +45,6 @@
 </main>
 <footer>
     <th:block th:include="~{fragments/footer}"></th:block>
-</footer>
 </footer>
 </body>
 </html>
