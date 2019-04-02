@@ -82,7 +82,7 @@ public class QuoteController extends BaseController {
         return super.view("quote-delete", modelAndView);
     }
 
-    @PostMapping("/delete/{id}")
+@PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView deleteQuoteConfirm(@PathVariable String id) {
         this.quoteService.deleteQuote(id);
