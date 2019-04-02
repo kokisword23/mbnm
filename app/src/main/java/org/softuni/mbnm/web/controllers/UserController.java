@@ -60,6 +60,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/login")
+    @PreAuthorize("isAnonymous()")
     public ModelAndView loginConfirm(@ModelAttribute UserLoginBindingModel model){
         if (!encoder.matches(this.userService.findUserByUserName(model.getUsername()).getPassword(),model.getPassword())){
             return super.view("login");

@@ -91,7 +91,7 @@ public class QuoteController extends BaseController {
     }
 
     @GetMapping("/edit/{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView editQuote(@PathVariable String id, ModelAndView modelAndView){
         QuoteServiceModel quoteServiceModel = this.quoteService.findQuoteById(id);
 
@@ -103,7 +103,7 @@ public class QuoteController extends BaseController {
     }
 
     @PostMapping("/edit/{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView editQuoteConfirm(@PathVariable String id,@ModelAttribute QuoteCreateBindingModel model){
         this.quoteService.editQuote(id, this.modelMapper.map(model, QuoteServiceModel.class));
 
