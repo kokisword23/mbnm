@@ -28,6 +28,15 @@
     position: relative;
 }
 
+.bg-image-quote-all {
+    background-image: url('https://previews.123rf.com/images/berya113/berya1131503/berya113150300031/37737908-geometric-gray-background-molecule-and-communication-background-.jpg');
+    min-height: 380px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
 .button {
     text-decoration: none;
     color: rgba(255, 255, 255, 0.8);

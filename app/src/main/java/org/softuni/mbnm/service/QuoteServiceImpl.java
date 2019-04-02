@@ -68,6 +68,19 @@ public class QuoteServiceImpl implements QuoteService {
         this.quoteRepository.delete(quote);
     }
 
+    @Override
+    public QuoteServiceModel editQuote(String id, QuoteServiceModel quoteServiceModel) {
+        Quote quote = this.quoteRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new);
+
+        quote.setTitle(quoteServiceModel.getTitle());
+        quote.setAuthor(quoteServiceModel.getAuthor());
+        quote.setDescription(quoteServiceModel.getDescription());
+        quote.setImgUrl(quoteServiceModel.getImgUrl());
+
+        return this.modelMapper.map(this.quoteRepository.saveAndFlush(quote), QuoteServiceModel.class);
+    }
+
 //    @Override
 //    public void seedQuotes(HttpSession session) {
 //        session.setAttribute("quotes",this.quoteRepository.findAll());

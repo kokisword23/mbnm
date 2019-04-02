@@ -82,11 +82,31 @@ public class QuoteController extends BaseController {
         return super.view("quote-delete", modelAndView);
     }
 
-@PostMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView deleteQuoteConfirm(@PathVariable String id) {
         this.quoteService.deleteQuote(id);
 
         return super.redirect("/quotes/all");
+    }
+
+    @GetMapping("/edit/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView editQuote(@PathVariable String id, ModelAndView modelAndView){
+        QuoteServiceModel quoteServiceModel = this.quoteService.findQuoteById(id);
+
+        modelAndView.addObject("quote", quoteServiceModel);
+        modelAndView.addObject("quoteId", id);
+
+        return super.view("quote-edit",modelAndView);
+
+    }
+
+    @PostMapping("/edit/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView editQuoteConfirm(@PathVariable String id,@ModelAttribute QuoteCreateBindingModel model){
+        this.quoteService.editQuote(id, this.modelMapper.map(model, QuoteServiceModel.class));
+
+        return super.redirect("/quotes/details/"+id);
     }
 }

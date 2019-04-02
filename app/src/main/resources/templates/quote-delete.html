@@ -10,32 +10,35 @@
         <th:block th:include="~{fragments/nav-bar}"></th:block>
     </header>
     <main class="mt-5">
-            <h1 class="text-center text-dark">Delete Quote</h1>
-        <hr class="hr-2 bg-dark w-25">
-        <form id="add-quote-form" class="form w-25 mx-auto" th:action="@{/quotes/delete/{id}(id=${quoteId})}"
-              method="post" enctype="multipart/form-data"><input type="hidden" name="_csrf"
-                                                                 value="c686cd14-a7f9-4216-8009-c093b7d3df86">
-            <div class="form-group">
-                <label for="add-quote-name" class="font-weight-bold">Name</label>
-                <input type="text" class="form-control text-center" id="add-quote-name" name="name"
-                       th:value="${quote.title}" disabled>
-            </div>
-            <div class="form-group">
-                <label for="add-quote-price" class="font-weight-bold">Author</label>
-                <input type="text" step="any" class="form-control text-center" id="add-quote-price" name="author"
-                       th:value="${quote.author}" disabled="">
-            </div>
-            <div class="form-group">
-                <label for="add-quote-description" class="font-weight-bold">Description</label>
-                <textarea name="description" id="add-quote-description" cols="41" rows="5"
-                          th:text="${quote.description}" disabled></textarea>
-            </div>
-            <hr class="hr-2 bg-dark">
-            <div class="button-holder d-flex justify-content-center">
-                <button type="submit" class="btn bg-hero ml-4 glow-button">Delete Quote</button>
-            </div>
-        </form>
-        <span style="visibility: hidden">....</span>
+        <div class="bg-image-quote-all">
+            <span style="visibility: hidden">....</span>
+            <h1 class="text-center font-weight-bold text-dark">Delete Quote</h1>
+            <hr class="hr-2 bg-dark w-25">
+            <form id="add-quote-form" class="form w-25 mx-auto" th:action="@{/quotes/delete/{id}(id=${quoteId})}"
+                  method="post" enctype="multipart/form-data"><input type="hidden" name="_csrf"
+                                                                     value="c686cd14-a7f9-4216-8009-c093b7d3df86">
+                <div class="form-group">
+                    <label for="add-quote-name" class="mb-1">Name</label>
+                    <input type="text" class="form-control text-center" id="add-quote-name" name="name"
+                           th:value="${quote.title}" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="add-quote-price" class="mb-1">Author</label>
+                    <input type="text" step="any" class="form-control text-center" id="add-quote-price" name="author"
+                           th:value="${quote.author}" disabled="">
+                </div>
+                <div class="form-group">
+                    <label for="add-quote-description" class="mb-1">Description</label>
+                    <textarea name="description" id="add-quote-description" cols="41" rows="5"
+                              th:text="${quote.description}" disabled></textarea>
+                </div>
+                <hr class="hr-2 bg-dark">
+                <div class="button-holder d-flex justify-content-center">
+                    <button type="submit" class="btn bg-hero ml-4 glow-button">Delete Quote</button>
+                </div>
+            </form>
+            <span style="visibility: hidden">....</span>
+        </div>
     </main>
     <footer>
         <th:block th:include="~{fragments/footer}"></th:block>

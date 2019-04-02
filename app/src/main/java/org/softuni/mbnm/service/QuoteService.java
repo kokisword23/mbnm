@@ -18,5 +18,8 @@ public interface QuoteService {
     QuoteServiceModel findQuoteById(String id);
 
     void deleteQuote(String id);
+
+    QuoteServiceModel editQuote(String id, QuoteServiceModel quoteServiceModel);
+
 //    void seedQuotes(HttpSession session);
 }
