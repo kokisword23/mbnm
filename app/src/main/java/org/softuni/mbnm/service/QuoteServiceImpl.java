@@ -3,6 +3,7 @@ package org.softuni.mbnm.service;
 import org.modelmapper.ModelMapper;
 import org.softuni.mbnm.domain.entities.Quote;
 import org.softuni.mbnm.domain.models.service.QuoteServiceModel;
+import org.softuni.mbnm.error.QuoteNotFoundException;
 import org.softuni.mbnm.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,7 +35,7 @@ public class QuoteServiceImpl implements QuoteService {
     public QuoteServiceModel findQuoteByTitle(String title) {
         return this.quoteRepository.findQuoteByTitle(title)
                 .map(q -> this.modelMapper.map(q, QuoteServiceModel.class))
-                .orElseThrow(() -> new UsernameNotFoundException("Title not found!"));
+                .orElseThrow(() -> new QuoteNotFoundException("Nqq takuv quote s toz title"));
     }
 
     @Override
@@ -58,12 +59,12 @@ public class QuoteServiceImpl implements QuoteService {
     public QuoteServiceModel findQuoteById(String id) {
         return this.quoteRepository.findById(id)
                 .map(q -> this.modelMapper.map(q, QuoteServiceModel.class))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new QuoteNotFoundException("Nqq takuv quote s tva id"));
     }
 
     @Override
     public void deleteQuote(String id) {
-        Quote quote = this.quoteRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        Quote quote = this.quoteRepository.findById(id).orElseThrow(() -> new QuoteNotFoundException("Quote with given id was not found!"));
 
         this.quoteRepository.delete(quote);
     }

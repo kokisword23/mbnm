@@ -8,10 +8,12 @@ import org.softuni.mbnm.domain.models.service.UserServiceModel;
 import org.softuni.mbnm.domain.models.view.UserProfileViewModel;
 import org.softuni.mbnm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -41,10 +43,7 @@ public class UserController extends BaseController {
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(@ModelAttribute UserRegisterBindingModel model) {
-        if (!model.getPassword().equals(model.getConfirmPassword())
-                || model.getConfirmPassword().isEmpty()
-                || model.getUsername().isEmpty()
-                || model.getEmail().isEmpty()) {
+        if (!model.getPassword().equals(model.getConfirmPassword())) {
             return super.view("register");
         }
 
@@ -57,15 +56,6 @@ public class UserController extends BaseController {
     @PreAuthorize("isAnonymous()")
     public ModelAndView login() {
         return super.view("login");
-    }
-
-    @PostMapping("/login")
-    @PreAuthorize("isAnonymous()")
-    public ModelAndView loginConfirm(@ModelAttribute UserLoginBindingModel model){
-        if (!encoder.matches(this.userService.findUserByUserName(model.getUsername()).getPassword(),model.getPassword())){
-            return super.view("login");
-        }
-        return super.redirect("/home");
     }
 
     @GetMapping("/profile")
@@ -96,6 +86,11 @@ public class UserController extends BaseController {
         this.userService.editUserProfile(this.modelMapper.map(model, UserServiceModel.class), model.getOldPassword());
 
         return super.redirect("/users/profile");
+    }
+
+    @InitBinder
+    private void initBinder(WebDataBinder webDataBinder) {
+        webDataBinder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
 }

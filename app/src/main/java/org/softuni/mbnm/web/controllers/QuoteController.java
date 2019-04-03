@@ -5,11 +5,14 @@ import org.softuni.mbnm.domain.models.binding.QuoteCreateBindingModel;
 import org.softuni.mbnm.domain.models.service.QuoteServiceModel;
 import org.softuni.mbnm.domain.models.view.QuoteDetailsViewlModel;
 import org.softuni.mbnm.domain.models.view.UserProfileViewModel;
+import org.softuni.mbnm.error.QuoteNotFoundException;
 import org.softuni.mbnm.service.QuoteService;
 import org.softuni.mbnm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -108,5 +111,19 @@ public class QuoteController extends BaseController {
         this.quoteService.editQuote(id, this.modelMapper.map(model, QuoteServiceModel.class));
 
         return super.redirect("/quotes/details/"+id);
+    }
+
+    @ExceptionHandler({QuoteNotFoundException.class})
+    public ModelAndView handleProductNotFound(QuoteNotFoundException e) {
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("message", e.getMessage());
+        modelAndView.addObject("statusCode", e.getStatus());
+
+        return modelAndView;
+    }
+
+    @InitBinder
+    private void initBinder(WebDataBinder webDataBinder) {
+        webDataBinder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 }

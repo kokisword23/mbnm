@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <header>
+        <th:block th:include="~{fragments/nav-bar}"></th:block>
+    </header>
+    <main class="mt-5">
+        <div class="bg-image-quote-create">
+            <hr class="bg-hero hr-2"/>
+            <h1 style="font-size: 50px" class="text-center font-weight-bold text-black">Е са стана сакатлъка !</h1>
+            <div class="text-center">
+                <h3  th:text="${message}" style="font-size: 25px; color: red;"></h3>
+            </div>
+            <div class="text-center">
+                <img src="https://www.dnevnik.bg/shimg/cbig_1743979.jpg" alt="batBojko">
+            </div>
+            <span style="visibility: hidden">....</span>
+        </div>
+    </main>
+    <footer>
+        <th:block th:include="~{fragments/footer}"></th:block>
+    </footer>
+</div>
+</body>
+</html>
