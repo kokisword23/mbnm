@@ -31,54 +31,10 @@
                         <td class="col-md-2 text-center" th:text="${users.email}"></td>
                         <td class="col-md-2 text-center" th:text="${#strings.listJoin(users.authorities, ', ')}"></td>
                         <td class="col-md-3 text-center">
-                            <div class="row">
-                                <th:block th:if="${#lists.contains(users.authorities, 'ROLE_USER') &&
-                                    !#lists.contains(users.authorities, 'ROLE_ADMIN')}">
-                                    <form th:action="@{/set-moderator/{id}(id=${users.id})}" method="post">
-                                        <input type="hidden" name="_csrf"
-                                               value="80417983-fe8b-45c7-963e-31f6915a1560">
-                                        <button class="btn btn-dark">MODERATOR</button>
-                                    </form>
-                                    <form th:action="@{/set-admin/{id}(id=${users.id})}" method="post">
-                                        <input type="hidden" name="_csrf"
-                                               value="80417983-fe8b-45c7-963e-31f6915a1560">
-                                        <button class="btn btn-dark">ADMIN</button>
-                                    </form>
-
-                                </th:block>
-                                <th:block th:if="${#lists.contains(users.authorities, 'ROLE_USER')
-                                 && !#lists.contains(users.authorities, 'ROLE_ADMIN')
-                        }">
-                                    <form th:action="@{/users/set-user/{id}(id=${users.id})}" method="post">
-                                        <input type="hidden" name="_csrf"
-                                               value="80417983-fe8b-45c7-963e-31f6915a1560">
-                                        <button class="btn btn-dark">USER</button>
-                                    </form>
-                                    <form th:action="@{/users/set-admin/{id}(id=${users.id})}" method="post">
-                                        <input type="hidden" name="_csrf"
-                                               value="80417983-fe8b-45c7-963e-31f6915a1560">
-                                        <button class="btn btn-dark">ADMIN</button>
-                                    </form>
-                                </th:block>
-                                <th:block th:if="${#lists.contains(users.authorities, 'ROLE_USER')
-                                 && #lists.contains(users.authorities, 'ROLE_ADMIN') && !#lists.contains(users.authorities, 'ROLE_ROOT')
-                        }">
-                                    <form th:action="@{/users/set-user/{id}(id=${users.id})}" method="post">
-                                        <input type="hidden" name="_csrf"
-                                               value="80417983-fe8b-45c7-963e-31f6915a1560">
-                                        <button class="btn btn-dark">USER</button>
-                                    </form>
-                                    <form th:action="@{/users/set-moderator/{id}(id=${users.id})}" method="post">
-                                        <input type="hidden" name="_csrf"
-                                               value="80417983-fe8b-45c7-963e-31f6915a1560">
-                                        <button class="btn btn-dark">MODERATOR</button>
-                                    </form>
-                                </th:block>
-                            </div>
-                            <!--<a th:href="@{/users/edit/{id}(id=${users.id})}"-->
-                            <!--class="btn btn-success glow-button font-weight-bold text-white">Edit</a>-->
-                            <!--<a th:href="@{/users/delete/{id}(id=${users.id})}"-->
-                            <!--class="btn btn-danger glow-button font-weight-bold text-white">Delete</a>-->
+                            <a th:href="@{/users/edit/{id}(id=${users.id})}"
+                               class="btn btn-success glow-button font-weight-bold text-white">Edit</a>
+                            <a th:href="@{/users/delete/{id}(id=${users.id})}"
+                               class="btn btn-danger glow-button font-weight-bold text-white">Delete</a>
                         </td>
                     </tr>
                 </th:block>
