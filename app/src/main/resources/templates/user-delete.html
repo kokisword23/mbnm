@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <header>
+        <th:block th:include="~{fragments/nav-bar}"></th:block>
+    </header>
+    <main class="mt-5">
+        <div class="bg-image-quote-all">
+            <span style="visibility: hidden">....</span>
+            <h1 class="text-center font-weight-bold text-dark">Delete Quote</h1>
+            <hr class="hr-2 bg-dark w-25">
+            <form id="add-quote-form" class="form w-25 mx-auto" th:action="@{/users/delete/{id}(id=${userId})}"
+                  method="post" enctype="multipart/form-data"><input type="hidden" name="_csrf"
+                                                                     value="c686cd14-a7f9-4216-8009-c093b7d3df86">
+                <div class="form-group">
+                    <label for="user-username" class="mb-1">Username</label>
+                    <input type="text" class="form-control text-center" id="user-username" name="username"
+                           th:value="${user.username}" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="user-email" class="mb-1">Email</label>
+                    <input type="text" step="any" class="form-control text-center" id="user-email" name="email"
+                           th:value="${user.email}" disabled="">
+                </div>
+                <hr class="hr-2 bg-dark">
+                <div class="button-holder d-flex justify-content-center">
+                    <button type="submit" class="btn bg-hero ml-4 glow-button">Delete User</button>
+                </div>
+            </form>
+            <span style="visibility: hidden">....</span>
+        </div>
+    </main>
+    <footer>
+        <th:block th:include="~{fragments/footer}"></th:block>
+    </footer>
+</div>
+</body>
+</html>

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
@@ -86,6 +88,37 @@ public class UserController extends BaseController {
         this.userService.editUserProfile(this.modelMapper.map(model, UserServiceModel.class), model.getOldPassword());
 
         return super.redirect("/users/profile");
+    }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView showAllUsers(ModelAndView modelAndView){
+        List<UserServiceModel> users = this.userService.findAllUsers()
+                .stream()
+                .map(u -> this.modelMapper.map(u, UserServiceModel.class))
+                .collect(Collectors.toList());
+
+        modelAndView.addObject("users", users);
+        return super.view("all-users", modelAndView);
+    }
+
+    @GetMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView deleteUser(@PathVariable String id, ModelAndView modelAndView) {
+        UserServiceModel userServiceModel = this.userService.findUserById(id);
+
+        modelAndView.addObject("user", userServiceModel);
+        modelAndView.addObject("userId", id);
+
+        return super.view("user-delete", modelAndView);
+    }
+
+    @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView deleteUserConfirm(@PathVariable String id) {
+        this.userService.deleteUser(id);
+
+        return super.redirect("/users/all");
     }
 
     @InitBinder

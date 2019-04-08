@@ -21,5 +21,4 @@ public interface QuoteService {
 
     QuoteServiceModel editQuote(String id, QuoteServiceModel quoteServiceModel);
 
-//    void seedQuotes(HttpSession session);
 }

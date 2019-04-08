@@ -1,9 +1,10 @@
 package org.softuni.mbnm.service;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.modelmapper.ModelMapper;
 import org.softuni.mbnm.domain.entities.User;
+import org.softuni.mbnm.domain.models.service.LogServiceModel;
 import org.softuni.mbnm.domain.models.service.UserServiceModel;
+import org.softuni.mbnm.error.UserNotFoundException;
 import org.softuni.mbnm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,13 +20,16 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final LogService logService;
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(LogService logService, UserRepository userRepository, RoleService roleService,
+                           ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.logService = logService;
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.modelMapper = modelMapper;
@@ -46,6 +51,13 @@ public class UserServiceImpl implements UserService {
         User user = this.modelMapper.map(userServiceModel, User.class);
         user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
 
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(user.getUsername());
+        logServiceModel.setDescription("User registered");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
     }
 
@@ -64,6 +76,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserServiceModel findUserById(String id) {
+        return this.userRepository.findById(id)
+                .map(u -> this.modelMapper.map(u, UserServiceModel.class))
+                .orElseThrow(() -> new UsernameNotFoundException("Nqq takuv user s tva id"));
+    }
+
+    @Override
     public UserServiceModel editUserProfile(UserServiceModel userServiceModel, String oldPassword) {
         User user = this.userRepository.findByUsername(userServiceModel.getUsername())
                 .orElseThrow(()-> new UsernameNotFoundException("Username not found!"));
@@ -77,6 +96,13 @@ public class UserServiceImpl implements UserService {
                 user.getPassword());
         user.setEmail(userServiceModel.getEmail());
 
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(user.getUsername());
+        logServiceModel.setDescription("User profile edited");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
     }
 
@@ -86,6 +112,20 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(u -> this.modelMapper.map(u, UserServiceModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        User user = this.userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with given id was not found!"));
+
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(user.getUsername());
+        logServiceModel.setDescription("User deleted");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
+        this.userRepository.delete(user);
     }
 
     @Override

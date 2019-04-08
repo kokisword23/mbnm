@@ -56,12 +56,12 @@ public class QuoteController extends BaseController {
     @GetMapping("/all")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView showAll(ModelAndView modelAndView){
-        List<QuoteServiceModel> users = this.quoteService.findAllQuotes()
+        List<QuoteServiceModel> quotes = this.quoteService.findAllQuotes()
                 .stream()
                 .map(q -> this.modelMapper.map(q, QuoteServiceModel.class))
                 .collect(Collectors.toList());
 
-        modelAndView.addObject("quotes", users);
+        modelAndView.addObject("quotes", quotes);
         return super.view("all-quotes", modelAndView);
     }
 
@@ -75,7 +75,7 @@ public class QuoteController extends BaseController {
 
 
     @GetMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView deleteQuote(@PathVariable String id, ModelAndView modelAndView) {
         QuoteServiceModel quoteServiceModel = this.quoteService.findQuoteById(id);
 
@@ -86,7 +86,7 @@ public class QuoteController extends BaseController {
     }
 
     @PostMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView deleteQuoteConfirm(@PathVariable String id) {
         this.quoteService.deleteQuote(id);
 
@@ -106,7 +106,7 @@ public class QuoteController extends BaseController {
     }
 
     @PostMapping("/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editQuoteConfirm(@PathVariable String id,@ModelAttribute QuoteCreateBindingModel model){
         this.quoteService.editQuote(id, this.modelMapper.map(model, QuoteServiceModel.class));
 

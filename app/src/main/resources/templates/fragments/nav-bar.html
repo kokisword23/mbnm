@@ -40,31 +40,12 @@
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
-                        <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
-                            <li class="nav-item active">
-                                <div class="dropdown show">
-                                    <a class="nav-link active dropdown-toggle" href="#" role="button" id="moderatorDropdown"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Moderator
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="moderatorDropdown">
-                                        <a class="dropdown-item" th:href="@{/quotes/all}">All Quotes</a>
-                                    </div>
-                                </div>
-                            </li>
-                        </th:block>
-
                         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                             <li class="nav-item active">
-                                <div class="dropdown">
-                                    <a class="nav-link active dropdown-toggle" href="#" role="button" id="adminDropdown"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Admin
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
-                                        <a class="dropdown-item" th:href="@{/users/all}">All Users</a>
-                                    </div>
-                                </div>
+                                <a class="nav-link" th:href="@{/quotes/all}">All Quotes</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" th:href="@{/users/all}">All Users</a>
                             </li>
                         </th:block>
                         <li class="nav-item active">

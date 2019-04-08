@@ -2,25 +2,28 @@ package org.softuni.mbnm.service;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.mbnm.domain.entities.Quote;
+import org.softuni.mbnm.domain.models.service.LogServiceModel;
 import org.softuni.mbnm.domain.models.service.QuoteServiceModel;
 import org.softuni.mbnm.error.QuoteNotFoundException;
 import org.softuni.mbnm.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class QuoteServiceImpl implements QuoteService {
 
+    private final LogService logService;
     private final QuoteRepository quoteRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public QuoteServiceImpl(QuoteRepository quoteRepository, ModelMapper modelMapper) {
+    public QuoteServiceImpl(LogService logService, QuoteRepository quoteRepository, ModelMapper modelMapper) {
+        this.logService = logService;
         this.quoteRepository = quoteRepository;
         this.modelMapper = modelMapper;
     }
@@ -28,6 +31,14 @@ public class QuoteServiceImpl implements QuoteService {
     @Override
     public QuoteServiceModel createQuote(QuoteServiceModel quoteServiceModel) {
         Quote quote = this.modelMapper.map(quoteServiceModel, Quote.class);
+
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(quoteServiceModel.getAuthor());
+        logServiceModel.setDescription("Quote created");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         return this.modelMapper.map(this.quoteRepository.saveAndFlush(quote), QuoteServiceModel.class);
     }
 
@@ -66,6 +77,13 @@ public class QuoteServiceImpl implements QuoteService {
     public void deleteQuote(String id) {
         Quote quote = this.quoteRepository.findById(id).orElseThrow(() -> new QuoteNotFoundException("Quote with given id was not found!"));
 
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(quote.getAuthor());
+        logServiceModel.setDescription("Quote deleted");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         this.quoteRepository.delete(quote);
     }
 
@@ -79,13 +97,13 @@ public class QuoteServiceImpl implements QuoteService {
         quote.setDescription(quoteServiceModel.getDescription());
         quote.setImgUrl(quoteServiceModel.getImgUrl());
 
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(quoteServiceModel.getAuthor());
+        logServiceModel.setDescription("Quote edited");
+        logServiceModel.setTime(LocalDateTime.now());
+
         return this.modelMapper.map(this.quoteRepository.saveAndFlush(quote), QuoteServiceModel.class);
     }
-
-//    @Override
-//    public void seedQuotes(HttpSession session) {
-//        session.setAttribute("quotes",this.quoteRepository.findAll());
-//    }
 
 
 }

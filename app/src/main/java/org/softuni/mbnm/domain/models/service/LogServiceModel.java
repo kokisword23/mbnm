@@ -1,24 +1,16 @@
-package org.softuni.mbnm.domain.entities;
-
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+package org.softuni.mbnm.domain.models.service;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "logs")
-public class Log extends BaseEntity{
+public class LogServiceModel extends BaseServiceModel {
 
     private String username;
     private String description;
     private LocalDateTime time;
 
-    public Log() {
+    public LogServiceModel() {
     }
 
-    @Column(name = "username", nullable = false)
     public String getUsername() {
         return username;
     }
@@ -27,7 +19,6 @@ public class Log extends BaseEntity{
         this.username = username;
     }
 
-    @Column(name = "description", nullable = false)
     public String getDescription() {
         return description;
     }
@@ -36,7 +27,6 @@ public class Log extends BaseEntity{
         this.description = description;
     }
 
-    @Column(name = "time", nullable = false)
     public LocalDateTime getTime() {
         return time;
     }
