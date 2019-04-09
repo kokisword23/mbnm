@@ -32,13 +32,17 @@
                         <th:block th:each="authorities : ${users.authorities}">
                             <td class="col-md-2 text-center"
                                 th:text="${authorities.authority}"></td>
+                            <th:block th:if="${#strings.equals(authorities.authority, 'ROLE_USER') &&
+                                              !#strings.equals(authorities.authority, 'ROLE_ROOT')}">
+                                <td class ="col-md-3 text-center">
+                                    <form th:action="@{/users/set-admin/{id}(id=${users.id})}" method="post">
+                                        <button class="btn btn-dark btn-width">ADMIN</button>
+                                    </form>
+                                    <a th:href="@{/users/delete/{id}(id=${users.id})}"
+                                       class="btn btn-danger glow-button font-weight-bold text-white">Delete</a>
+                                </td>
+                            </th:block>
                         </th:block>
-                        <td class="col-md-3 text-center">
-                            <a th:href="@{/users/edit/{id}(id=${users.id})}"
-                               class="btn btn-success glow-button font-weight-bold text-white">Edit</a>
-                            <a th:href="@{/users/delete/{id}(id=${users.id})}"
-                               class="btn btn-danger glow-button font-weight-bold text-white">Delete</a>
-                        </td>
                     </tr>
                 </th:block>
                 </tbody>

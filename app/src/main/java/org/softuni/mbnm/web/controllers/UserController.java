@@ -121,6 +121,15 @@ public class UserController extends BaseController {
         return super.redirect("/users/all");
     }
 
+    //TODO why not working ?!?
+    @PostMapping("/set-admin/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView setAdminRole(@PathVariable String id) {
+        this.userService.setUserRole(id, "admin");
+
+        return super.redirect("/all");
+    }
+
     @InitBinder
     private void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
