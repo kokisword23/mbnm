@@ -19,7 +19,7 @@
                 <tr class="row mx-auto">
                     <th class="col-md-1 text-center">#</th>
                     <th class="col-md-3 text-center">Username</th>
-                    <th class="col-md-3 text-center">Email</th>
+                    <th class="col-md-2 text-center">Email</th>
                     <th class="col-md-2 text-center">Roles</th>
                 </tr>
                 </thead>
@@ -29,7 +29,10 @@
                         <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
                         <td class="col-md-3 text-center" th:text="${users.username}"></td>
                         <td class="col-md-2 text-center" th:text="${users.email}"></td>
-                        <td class="col-md-2 text-center" th:text="${#strings.listJoin(users.authorities, ', ')}"></td>
+                        <th:block th:each="authorities : ${users.authorities}">
+                            <td class="col-md-2 text-center"
+                                th:text="${authorities.authority}"></td>
+                        </th:block>
                         <td class="col-md-3 text-center">
                             <a th:href="@{/users/edit/{id}(id=${users.id})}"
                                class="btn btn-success glow-button font-weight-bold text-white">Edit</a>
