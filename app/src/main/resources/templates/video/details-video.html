@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <header>
+        <th:block th:include="~{fragments/nav-bar}"></th:block>
+    </header>
+    <main class="mt-3">
+        <div class="bg-image-quote-all text-center">
+            <span style="visibility: hidden">....</span>
+            <div class="text-center mt-5">
+                <iframe width="560" height="315"
+                        th:src="@{https://www.youtube.com/embed/{url}(url=${video.url})}"
+                        frameborder="1" alt="no video attached" allowfullscreen="0"></iframe>
+            </div>
+            <div class="row">
+                <div class="col col-md-12 mt-5">
+                    <h1 th:text="'Title: ' + ${video.title}"></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-md-12">
+                    <h4 th:text="'Author: ' + ${video.uploader}"></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-md-12 mt-3">
+                    <h4 th:text="'Desciption: ' + ${video.description}"></h4>
+                </div>
+            <!--</div>-->
+            <span style="visibility: hidden">....</span>
+        </div>
+    </main>
+    <footer>
+        <th:block th:include="~{fragments/footer}"></th:block>
+    </footer>
+</div>
+</body>
+</html>

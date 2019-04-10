@@ -39,14 +39,14 @@ public class UserController extends BaseController {
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView register() {
-        return super.view("register");
+        return super.view("user/register");
     }
 
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(@ModelAttribute UserRegisterBindingModel model) {
         if (!model.getPassword().equals(model.getConfirmPassword())) {
-            return super.view("register");
+            return super.view("user/register");
         }
 
         this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class));
@@ -57,7 +57,7 @@ public class UserController extends BaseController {
     @GetMapping("/login")
     @PreAuthorize("isAnonymous()")
     public ModelAndView login() {
-        return super.view("login");
+        return super.view("user/login");
     }
 
     @GetMapping("/profile")
@@ -66,7 +66,7 @@ public class UserController extends BaseController {
         modelAndView
                 .addObject("model", this.modelMapper
                         .map(this.userService.findUserByUserName(principal.getName()), UserProfileViewModel.class));
-        return super.view("profile", modelAndView);
+        return super.view("user/profile", modelAndView);
     }
 
     @GetMapping("/edit")
@@ -75,14 +75,14 @@ public class UserController extends BaseController {
         modelAndView
                 .addObject("model", this.modelMapper.map(this.userService.findUserByUserName(principal.getName()), UserProfileViewModel.class));
 
-        return super.view("edit-profile", modelAndView);
+        return super.view("user/edit-profile", modelAndView);
     }
 
     @PatchMapping("/edit")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView editProfileConfirm(@ModelAttribute UserEditBindingModel model){
         if (!model.getPassword().equals(model.getConfirmPassword())){
-            return super.view("edit-profile");
+            return super.view("user/edit-profile");
         }
 
         this.userService.editUserProfile(this.modelMapper.map(model, UserServiceModel.class), model.getOldPassword());
@@ -99,7 +99,7 @@ public class UserController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject("users", users);
-        return super.view("all-users", modelAndView);
+        return super.view("user/all-users", modelAndView);
     }
 
     @GetMapping("/delete/{id}")
@@ -110,7 +110,7 @@ public class UserController extends BaseController {
         modelAndView.addObject("user", userServiceModel);
         modelAndView.addObject("userId", id);
 
-        return super.view("user-delete", modelAndView);
+        return super.view("user/delete-user", modelAndView);
     }
 
     @PostMapping("/delete/{id}")

@@ -3,7 +3,7 @@ package org.softuni.mbnm.web.controllers;
 import org.modelmapper.ModelMapper;
 import org.softuni.mbnm.domain.models.binding.QuoteCreateBindingModel;
 import org.softuni.mbnm.domain.models.service.QuoteServiceModel;
-import org.softuni.mbnm.domain.models.view.QuoteDetailsViewlModel;
+import org.softuni.mbnm.domain.models.view.QuoteDetailsViewModel;
 import org.softuni.mbnm.domain.models.view.UserProfileViewModel;
 import org.softuni.mbnm.error.QuoteNotFoundException;
 import org.softuni.mbnm.service.QuoteService;
@@ -41,7 +41,7 @@ public class QuoteController extends BaseController {
         modelAndView
                 .addObject("model", this.modelMapper
                         .map(this.userService.findUserByUserName(principal.getName()), UserProfileViewModel.class));
-        return super.view("quote-create");
+        return super.view("quote/create-quote");
     }
 
     @PostMapping("/create")
@@ -62,15 +62,15 @@ public class QuoteController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject("quotes", quotes);
-        return super.view("all-quotes", modelAndView);
+        return super.view("quote/all-quotes", modelAndView);
     }
 
     @GetMapping("/details/{id}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView detailsQuote(@PathVariable String id, ModelAndView modelAndView) {
-        modelAndView.addObject("quote", this.modelMapper.map(this.quoteService.findQuoteById(id), QuoteDetailsViewlModel.class));
+        modelAndView.addObject("quote", this.modelMapper.map(this.quoteService.findQuoteById(id), QuoteDetailsViewModel.class));
 
-        return super.view("quote-details", modelAndView);
+        return super.view("quote/details-quote", modelAndView);
     }
 
 
@@ -82,7 +82,7 @@ public class QuoteController extends BaseController {
         modelAndView.addObject("quote", quoteServiceModel);
         modelAndView.addObject("quoteId", id);
 
-        return super.view("quote-delete", modelAndView);
+        return super.view("quote/delete-quote", modelAndView);
     }
 
     @PostMapping("/delete/{id}")
@@ -101,7 +101,7 @@ public class QuoteController extends BaseController {
         modelAndView.addObject("quote", quoteServiceModel);
         modelAndView.addObject("quoteId", id);
 
-        return super.view("quote-edit",modelAndView);
+        return super.view("quote/edit-quote",modelAndView);
 
     }
 
@@ -114,7 +114,7 @@ public class QuoteController extends BaseController {
     }
 
     @ExceptionHandler({QuoteNotFoundException.class})
-    public ModelAndView handleProductNotFound(QuoteNotFoundException e) {
+    public ModelAndView handleQuoteNotFound(QuoteNotFoundException e) {
         ModelAndView modelAndView = new ModelAndView("error");
         modelAndView.addObject("message", e.getMessage());
         modelAndView.addObject("statusCode", e.getStatus());

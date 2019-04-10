@@ -90,7 +90,7 @@ public class QuoteServiceImpl implements QuoteService {
     @Override
     public QuoteServiceModel editQuote(String id, QuoteServiceModel quoteServiceModel) {
         Quote quote = this.quoteRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new QuoteNotFoundException("Nqq takuv quote"));
 
         quote.setTitle(quoteServiceModel.getTitle());
         quote.setAuthor(quoteServiceModel.getAuthor());

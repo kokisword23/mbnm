@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <header>
+        <th:block th:include="~{fragments/nav-bar}"></th:block>
+    </header>
+    <main class="mt-5">
+        <div class="bg-image-quote-create">
+            <span style="visibility: hidden">....</span>
+            <h1 class="text-center font-weight-bold text-dark">Edit Video</h1>
+            <hr class="hr-2 bg-dark w-25">
+            <form id="add-product-form" class="form w-25 mx-auto" th:action="@{/videos/edit/{id}(id=${videoId})}"
+                  method="post" enctype="multipart/form-data"><input type="hidden" name="_csrf"
+                                                                     value="c686cd14-a7f9-4216-8009-c093b7d3df86">
+                <div class="form-group">
+                    <label for="video-title" class="mb-1">Title</label>
+                    <input type="text" class="form-control mt-1" id="video-title" name="title"
+                           th:value="${video.title}">
+                </div>
+                <div class="form-group">
+                    <label for="video-uploader" class="mb-1">Uploader</label>
+                    <input type="text" class="form-control mt-1" id="video-uploader" name="uploader"
+                           th:value="${video.uploader}">
+                </div>
+                <div class="form-group">
+                    <label for="video-description" class="mb-1">Description</label>
+                    <textarea class="mt-1" name="description" id="video-description" cols="41" rows="5"
+                              th:text="${video.description}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="video-url" class="mb-1">Video URL</label>
+                    <input type="text" class="form-control mt-1" id="video-url" name="url"
+                           th:value="${video.url}">
+                </div>
+                <hr class="hr-2 bg-dark">
+                <div class="button-holder d-flex justify-content-center">
+                    <button type="submit" class="btn bg-hero ml-4 glow-button">Edit Video</button>
+                </div>
+            </form>
+            <span style="visibility: hidden">....</span>
+        </div>
+    </main>
+    <footer>
+        <th:block th:include="~{fragments/footer}"></th:block>
+    </footer>
+</div>
+</body>
+</html>

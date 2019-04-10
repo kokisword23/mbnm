@@ -1,6 +1,6 @@
 package org.softuni.mbnm.domain.models.view;
 
-public class QuoteDetailsViewlModel {
+public class QuoteDetailsViewModel {
 
     private String title;
 
@@ -10,7 +10,7 @@ public class QuoteDetailsViewlModel {
 
     private String imgUrl;
 
-    public QuoteDetailsViewlModel() {
+    public QuoteDetailsViewModel() {
     }
 
     public String getTitle() {
