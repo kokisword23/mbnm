@@ -29,7 +29,8 @@
                     <tr class="row mx-auto">
                         <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
                         <td class="col-md-3">
-                            <div class="text-center"><img th:src="${quotes.imgUrl}" width="40" height="40" alt="quotes">
+                            <div class="text-center"><img th:src="${quotes.imgUrl}" width="40" height="40"
+                                                          alt="quotes">
                             </div>
                         </td>
                         <td class="col-md-3 text-center" th:text="${quotes.title}"></td>
@@ -39,12 +40,12 @@
                             <a th:href="@{/quotes/details/{id}(id=${quotes.id})}"
                                class="btn btn-secondary glow-button font-weight-bold text-white">Details</a>
                             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                            <a th:href="@{/quotes/edit/{id}(id=${quotes.id})}"
-                               class="btn btn-success glow-button font-weight-bold text-white">Edit</a>
+                                <a th:href="@{/quotes/edit/{id}(id=${quotes.id})}"
+                                   class="btn btn-success glow-button font-weight-bold text-white">Edit</a>
                             </th:block>
                             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                            <a th:href="@{/quotes/delete/{id}(id=${quotes.id})}"
-                               class="btn btn-danger glow-button font-weight-bold text-white">Delete</a>
+                                <a th:href="@{/quotes/delete/{id}(id=${quotes.id})}"
+                                   class="btn btn-danger glow-button font-weight-bold text-white">Delete</a>
                             </th:block>
                         </td>
                     </tr>
