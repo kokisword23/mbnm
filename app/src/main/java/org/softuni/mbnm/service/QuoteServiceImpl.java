@@ -7,6 +7,7 @@ import org.softuni.mbnm.domain.models.service.QuoteServiceModel;
 import org.softuni.mbnm.error.QuoteNotFoundException;
 import org.softuni.mbnm.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -105,5 +106,9 @@ public class QuoteServiceImpl implements QuoteService {
         return this.modelMapper.map(this.quoteRepository.saveAndFlush(quote), QuoteServiceModel.class);
     }
 
+    @Scheduled(fixedRate = 20000)
+    private void oldQuotes(){
+
+    }
 
 }

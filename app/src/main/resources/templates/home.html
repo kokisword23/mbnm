@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
 </head>
@@ -60,7 +61,8 @@
     function formatVideo(video) {
         return '<div class="video mb-3 mt-3">'
             + '<div class="text-center">'
-            + `<a href="/videos/details/${video.id}"><video src="${video.url}" class="product-image-home img-thumbnail px-auto"/></a>`
+            + `<a href="/videos/details/${video.id}"><iframe src="https://www.youtube.com/watch?v=${video.url}}"
+        frameborder="1" allowfullscreen="0"></iframe></a>`
             + '</div>'
             + `<h5 class="text-center font-weight-bold mt-3">Uploader: ${video.uploader}</h5>`
             + `<h5 class="text-center font-weight-bold">Title: ${video.title}</h5>`
@@ -91,7 +93,9 @@
     $('#videosShow').click(() => {
         $('#toChange').empty();
 
-        fetch('all-videos')
+        fetch('all-videos', {
+            mode: "no-cors",
+        })
             .then(response => response.json())
             .then((json) => {
                 if (json.length === 0) {
