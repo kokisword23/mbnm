@@ -31,17 +31,26 @@
                         <td class="col-md-2 text-center" th:text="${users.email}"></td>
                         <th:block th:each="authorities : ${users.authorities}">
                             <td class="col-md-2 text-center"
-                                th:text="${authorities.authority}"></td>
-                            <th:block th:if="${#strings.equals(authorities.authority, 'ROLE_USER') &&
-                                              !#strings.equals(authorities.authority, 'ROLE_ROOT')}">
-                                <td class ="col-md-3 text-center">
-                                    <form th:action="@{/users/set-admin/{id}(id=${users.id})}" method="post">
-                                        <button class="btn btn-dark btn-width">ADMIN</button>
+                                th:text="${authorities.authority}">
+                            </td>
+                        </th:block>
+
+                        <th:block sec:authorize="hasRole('ROLE_ROOT')">
+                            <th:block th:if="${#lists.size(users.authorities) == 2}">
+                                <td class="col-md-3 text-center">
+                                    <form th:action="@{/users/set-user/{id}(id=${users.id})}" method="post">
+                                        <button class="btn btn-dark btn-width">USER</button>
                                     </form>
-                                    <a th:href="@{/users/delete/{id}(id=${users.id})}"
-                                       class="btn btn-danger glow-button font-weight-bold text-white">Delete</a>
                                 </td>
                             </th:block>
+                        </th:block>
+
+                        <th:block th:if="${#lists.size(users.authorities) == 1}">
+                            <td class="col-md-3 text-center">
+                                <form th:action="@{/users/set-admin/{id}(id=${users.id})}" method="post">
+                                    <button class="btn btn-dark btn-width">ADMIN</button>
+                                </form>
+                            </td>
                         </th:block>
                     </tr>
                 </th:block>

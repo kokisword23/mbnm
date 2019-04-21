@@ -118,6 +118,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(String id) {
         User user = this.userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with given id was not found!"));
 
+
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername(user.getUsername());
         logServiceModel.setDescription("User deleted");
@@ -129,27 +130,42 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void setUserRole(String id, String role) {
+    public void makeAdmin(String id) {
         User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Incorrect id!"));
+                    .orElseThrow(() -> new UsernameNotFoundException("Nqma takova id!"));
 
         UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
         userServiceModel.getAuthorities().clear();
 
-        switch (role) {
-            case "user":
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
-                break;
-            case "moderator":
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_MODERATOR"));
-                break;
-            case "admin":
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_MODERATOR"));
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_ADMIN"));
-                break;
-        }
+        userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
+        userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_ADMIN"));
+
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(user.getUsername());
+        logServiceModel.setDescription("User is now admin");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
+        this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, User.class));
+    }
+
+    @Override
+    public void makeUser(String id) {
+        User user = this.userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Nqma takova id!!"));
+
+        UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
+        userServiceModel.getAuthorities().clear();
+
+        userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
+
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(user.getUsername());
+        logServiceModel.setDescription("User is no longer admin");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
 
         this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, User.class));
     }

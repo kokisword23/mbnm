@@ -2,8 +2,8 @@ package org.softuni.mbnm.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.mbnm.domain.models.binding.UserEditBindingModel;
-import org.softuni.mbnm.domain.models.binding.UserLoginBindingModel;
 import org.softuni.mbnm.domain.models.binding.UserRegisterBindingModel;
+import org.softuni.mbnm.domain.models.service.RoleServiceModel;
 import org.softuni.mbnm.domain.models.service.UserServiceModel;
 import org.softuni.mbnm.domain.models.view.UserProfileViewModel;
 import org.softuni.mbnm.service.UserService;
@@ -12,13 +12,15 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -98,7 +100,11 @@ public class UserController extends BaseController {
                 .map(u -> this.modelMapper.map(u, UserServiceModel.class))
                 .collect(Collectors.toList());
 
+        Map<String, Set<RoleServiceModel>> userAndAuthorities = new HashMap<>();
+        users.forEach(u -> userAndAuthorities.put(u.getId(), u.getAuthorities()));
+
         modelAndView.addObject("users", users);
+        modelAndView.addObject("usersAndAuths", userAndAuthorities);
         return super.view("user/all-users", modelAndView);
     }
 
@@ -125,9 +131,17 @@ public class UserController extends BaseController {
     @PostMapping("/set-admin/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView setAdminRole(@PathVariable String id) {
-        this.userService.setUserRole(id, "ROLE_ADMIN");
+        this.userService.makeAdmin(id);
 
-        return super.redirect("/all");
+        return super.redirect("/users/all");
+    }
+
+    @PostMapping("/set-user/{id}")
+    @PreAuthorize("hasRole('ROLE_ROOT')")
+    public ModelAndView setUserRole(@PathVariable String id) {
+        this.userService.makeUser(id);
+
+        return super.redirect("/users/all");
     }
 
     @InitBinder
