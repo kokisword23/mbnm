@@ -34,7 +34,7 @@ public class QuoteServiceImpl implements QuoteService {
         Quote quote = this.modelMapper.map(quoteServiceModel, Quote.class);
 
         LogServiceModel logServiceModel = new LogServiceModel();
-        logServiceModel.setUsername(quoteServiceModel.getAuthor());
+        logServiceModel.setUsername(quoteServiceModel.getAuthor().toLowerCase());
         logServiceModel.setDescription("Quote created");
         logServiceModel.setTime(LocalDateTime.now());
 

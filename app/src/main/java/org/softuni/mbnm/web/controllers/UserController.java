@@ -125,7 +125,7 @@ public class UserController extends BaseController {
     @PostMapping("/set-admin/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView setAdminRole(@PathVariable String id) {
-        this.userService.setUserRole(id, "admin");
+        this.userService.setUserRole(id, "ROLE_ADMIN");
 
         return super.redirect("/all");
     }

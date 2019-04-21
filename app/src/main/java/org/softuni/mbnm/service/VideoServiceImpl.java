@@ -33,7 +33,7 @@ public class VideoServiceImpl implements VideoService {
         Video video = this.modelMapper.map(videoServiceModel, Video.class);
 
         LogServiceModel logServiceModel = new LogServiceModel();
-        logServiceModel.setUsername(videoServiceModel.getUploader());
+        logServiceModel.setUsername(videoServiceModel.getUploader().toLowerCase());
         logServiceModel.setDescription(videoServiceModel.getTitle() +" - video created");
         logServiceModel.setTime(LocalDateTime.now());
 
@@ -71,7 +71,7 @@ public class VideoServiceImpl implements VideoService {
                 .orElseThrow(() -> new VideoNotFoundException("Nqma takova video"));
 
         LogServiceModel logServiceModel = new LogServiceModel();
-        logServiceModel.setUsername(video.getUploader());
+        logServiceModel.setUsername(video.getUploader().toLowerCase());
         logServiceModel.setDescription(video.getTitle() + " - video is deleted");
         logServiceModel.setTime(LocalDateTime.now());
 
@@ -91,7 +91,7 @@ public class VideoServiceImpl implements VideoService {
         video.setDescription(videoServiceModel.getDescription());
 
         LogServiceModel logServiceModel = new LogServiceModel();
-        logServiceModel.setUsername(videoServiceModel.getUploader());
+        logServiceModel.setUsername(videoServiceModel.getUploader().toLowerCase());
         logServiceModel.setDescription("Video edited");
         logServiceModel.setTime(LocalDateTime.now());
 

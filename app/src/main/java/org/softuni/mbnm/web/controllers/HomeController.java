@@ -2,7 +2,6 @@ package org.softuni.mbnm.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.mbnm.domain.models.view.QuoteAllViewModel;
-import org.softuni.mbnm.domain.models.view.VideoAllViewModel;
 import org.softuni.mbnm.service.QuoteService;
 import org.softuni.mbnm.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,15 +47,6 @@ public class HomeController extends BaseController {
         return this.quoteService.findAllQuotes()
                 .stream()
                 .map(q -> this.modelMapper.map(q, QuoteAllViewModel.class))
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/all-videos")
-    @ResponseBody
-    public List<VideoAllViewModel> fetchAllVideos() {
-        return this.videoService.findAllVideos()
-                .stream()
-                .map(v -> this.modelMapper.map(v, VideoAllViewModel.class))
                 .collect(Collectors.toList());
     }
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <header>
+        <th:block th:include="~{fragments/nav-bar}"></th:block>
+    </header>
+    <main class="mt-5">
+        <div class="bg-image-quote-all">
+            <span style="visibility: hidden">....</span>
+            <h1 class="text-center bold font-weight-bold text-dark">This is the MBNM fan shop.
+                <br/>If you want to order something contact us!<br/>GSM - 078 128 00019<br/>Email - mbnm@gmail.com</h1>
+            <hr class="hr-2 bg-dark">
+            <table class="table table-hover w-75 mx-auto">
+                <thead>
+                <tr class="row mx-auto">
+                    <th class="col-md-1 text-center">#</th>
+                    <th class="col-md-3 text-center">Image</th>
+                    <th class="col-md-3 text-center">Name</th>
+                    <th class="col-md-2 text-center">Price</th>
+                    <th class="col-md-3 text-center">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="product, iter : ${products}">
+                    <tr class="row mx-auto">
+                        <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
+                        <td class="col-md-3">
+                            <div class="text-center"><img th:src="${product.imgUrl}" width="40" height="40"
+                                                          alt="quotes">
+                            </div>
+                        </td>
+                        <td class="col-md-3 text-center" th:text="${product.name}"></td>
+                        <td class="col-md-2 text-center" th:text="${product.price}"></td>
+                        <td class="col-md-2 text-center" th:text="${product.description}"></td>
+                        <td class="col-md-3 text-center">
+                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                <a th:href="@{/products/delete/{id}(id=${product.id})}"
+                                   class="btn btn-danger glow-button font-weight-bold text-white">Delete</a>
+                            </th:block>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+            <hr class="hr-2 bg-dark">
+            <span style="visibility: hidden">....</span>
+        </div>
+    </main>
+    <footer>
+        <th:block th:include="~{fragments/footer}"></th:block>
+    </footer>
+</div>
+</body>
+</html>

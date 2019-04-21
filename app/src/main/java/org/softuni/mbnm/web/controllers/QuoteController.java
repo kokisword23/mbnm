@@ -3,7 +3,6 @@ package org.softuni.mbnm.web.controllers;
 import org.modelmapper.ModelMapper;
 import org.softuni.mbnm.domain.models.binding.QuoteCreateBindingModel;
 import org.softuni.mbnm.domain.models.service.QuoteServiceModel;
-import org.softuni.mbnm.domain.models.view.QuoteAllViewModel;
 import org.softuni.mbnm.domain.models.view.QuoteDetailsViewModel;
 import org.softuni.mbnm.domain.models.view.UserProfileViewModel;
 import org.softuni.mbnm.error.QuoteNotFoundException;

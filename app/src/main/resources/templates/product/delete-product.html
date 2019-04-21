@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <header>
+        <th:block th:include="~{fragments/nav-bar}"></th:block>
+    </header>
+    <main class="mt-5">
+        <div class="bg-image-quote-all">
+            <span style="visibility: hidden">....</span>
+            <h1 class="text-center font-weight-bold text-dark">Delete Quote</h1>
+            <hr class="hr-2 bg-dark w-25">
+            <form id="add-quote-form" class="form w-25 mx-auto" th:action="@{/products/delete/{id}(id=${productId})}"
+                  method="post" enctype="multipart/form-data"><input type="hidden" name="_csrf"
+                                                                     value="c686cd14-a7f9-4216-8009-c093b7d3df86">
+                <div class="form-group text-center mt-5">
+                    <img th:src="${product.imgUrl}" width="350" height="350" alt="quote">
+                </div>
+                <div class="form-group">
+                    <label for="product-name" class="mb-1">Name</label>
+                    <input type="text" class="form-control text-center" id="product-name" name="name"
+                           th:value="${product.name}" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="product-price" class="mb-1">Price</label>
+                    <input type="text" step="any" class="form-control text-center" id="product-price" name="price"
+                           th:value="${product.price}" disabled="">
+                </div>
+                <div class="form-group">
+                    <label for="product-description" class="mb-1">Description</label>
+                    <textarea name="description" id="product-description" cols="41" rows="5"
+                              th:text="${product.description}" disabled></textarea>
+                </div>
+                <hr class="hr-2 bg-dark">
+                <div class="button-holder d-flex justify-content-center">
+                    <button type="submit" class="btn bg-hero ml-4 glow-button">Delete Product</button>
+                </div>
+            </form>
+            <span style="visibility: hidden">....</span>
+        </div>
+    </main>
+    <footer>
+        <th:block th:include="~{fragments/footer}"></th:block>
+    </footer>
+</div>
+</body>
+</html>

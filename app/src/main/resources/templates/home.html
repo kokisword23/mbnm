@@ -26,14 +26,6 @@
                                         This is a place for everyone who needs motivation for the day. You can
                                         see quotes and videos about the struggle to the top.</h1>
                                     </div>
-                                    <div class="button-holder mt-3 d-flex justify-content-center">
-                                        <a id="quotesShow" class="btn bg-hero text-white ml-4 glow-button justify-content-left">
-                                            Show Quotes
-                                        </a>
-                                        <a  id="videosShow" class="btn bg-hero text-white ml-4 glow-button justify-content-right">
-                                            Show Videos
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -58,21 +50,11 @@
             + `<h5 class="text-center font-weight-bold mt-1">Description: ${quote.description}</h5>`
             + '</div>'
     }
-    function formatVideo(video) {
-        return '<div class="video mb-3 mt-3">'
-            + '<div class="text-center">'
-            + `<a href="/videos/details/${video.id}"><iframe src="https://www.youtube.com/watch?v=${video.url}}"
-        frameborder="1" allowfullscreen="0"></iframe></a>`
-            + '</div>'
-            + `<h5 class="text-center font-weight-bold mt-3">Uploader: ${video.uploader}</h5>`
-            + `<h5 class="text-center font-weight-bold">Title: ${video.title}</h5>`
-            + `<h5 class="text-center font-weight-bold mt-1">Description: ${video.description}</h5>`
-            + '</div>'
-    }
 
-    $('#quotesShow').click(() => {
+    setTimeout(() => {
         $('#toChange').empty();
-
+        $('#toChange').append('<a href="/quotes/all" class="btn bg-hero mt-5 ml-5 glow-button">Show all Quotes</a>');
+        $('#toChange').append('<a href="/videos/all" class="btn bg-hero mt-5 ml-5 glow-button">Show all Videos</a>');
         fetch('all-quotes')
             .then(response => response.json())
             .then((json) => {
@@ -82,35 +64,14 @@
                     for (let i = 0; i < json.length; i += 4) {
                         $('#toChange').append('<div class="quotes-row row d-flex justify-content-around mt-5">');
                         if(i < json.length) $('.quotes-row:last-child').append(formatQuote(json[i]));
-                            if(i + 1 < json.length) $('.quotes-row:last-child').append(formatQuote(json[i + 1]));
+                        if(i + 1 < json.length) $('.quotes-row:last-child').append(formatQuote(json[i + 1]));
                         if(i + 2 < json.length) $('.quotes-row:last-child').append(formatQuote(json[i + 2]));
                         if(i + 3 < json.length) $('.quotes-row:last-child').append(formatQuote(json[i + 3]));
                     }
                 }
             });
-    });
+    }, 7000);
 
-    $('#videosShow').click(() => {
-        $('#toChange').empty();
-
-        fetch('all-videos', {
-            mode: "no-cors",
-        })
-            .then(response => response.json())
-            .then((json) => {
-                if (json.length === 0) {
-                    $('#toChange').append(`<h1 class="text-center font-weight-bold">There are no videos !</h1>`)
-                } else {
-                    for (let i = 0; i < json.length; i += 4) {
-                        $('#toChange').append('<div class="quotes-row row d-flex justify-content-around mt-5">');
-                        if(i < json.length) $('.quotes-row:last-child').append(formatVideo(json[i]));
-                        if(i + 1 < json.length) $('.quotes-row:last-child').append(formatVideo(json[i + 1]));
-                        if(i + 2 < json.length) $('.quotes-row:last-child').append(formatVideo(json[i + 2]));
-                        if(i + 3 < json.length) $('.quotes-row:last-child').append(formatVideo(json[i + 3]));
-                    }
-                }
-            });
-    });
 
 </script>
 </body>
