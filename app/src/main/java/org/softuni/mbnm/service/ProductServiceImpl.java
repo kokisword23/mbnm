@@ -85,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository.delete(product);
     }
 
-    @Scheduled(fixedRate = 500000)
+    @Scheduled(fixedRate = 5000000)
     private void discount(){
         ProductServiceModel productServiceModel =
                 this.productRepository.findAll().stream()

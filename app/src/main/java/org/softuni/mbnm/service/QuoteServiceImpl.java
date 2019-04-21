@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.softuni.mbnm.domain.entities.Quote;
 import org.softuni.mbnm.domain.models.service.LogServiceModel;
 import org.softuni.mbnm.domain.models.service.QuoteServiceModel;
+import org.softuni.mbnm.error.Constants;
 import org.softuni.mbnm.error.QuoteNotFoundException;
 import org.softuni.mbnm.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class QuoteServiceImpl implements QuoteService {
 
+    private Constants constant;
     private final LogService logService;
     private final QuoteRepository quoteRepository;
     private final ModelMapper modelMapper;
@@ -47,7 +49,7 @@ public class QuoteServiceImpl implements QuoteService {
     public QuoteServiceModel findQuoteByTitle(String title) {
         return this.quoteRepository.findQuoteByTitle(title)
                 .map(q -> this.modelMapper.map(q, QuoteServiceModel.class))
-                .orElseThrow(() -> new QuoteNotFoundException("Nqq takuv quote s toz title"));
+                .orElseThrow(() -> new QuoteNotFoundException(Constants.QUOTE_NOT_FOUND));
     }
 
     @Override
@@ -71,12 +73,12 @@ public class QuoteServiceImpl implements QuoteService {
     public QuoteServiceModel findQuoteById(String id) {
         return this.quoteRepository.findById(id)
                 .map(q -> this.modelMapper.map(q, QuoteServiceModel.class))
-                .orElseThrow(() -> new QuoteNotFoundException("Nqq takuv quote s tva id"));
+                .orElseThrow(() -> new QuoteNotFoundException(Constants.QUOTE_ID_NOT_FOUND));
     }
 
     @Override
     public void deleteQuote(String id) {
-        Quote quote = this.quoteRepository.findById(id).orElseThrow(() -> new QuoteNotFoundException("Quote with given id was not found!"));
+        Quote quote = this.quoteRepository.findById(id).orElseThrow(() -> new QuoteNotFoundException(Constants.QUOTE_ID_NOT_FOUND));
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername(quote.getAuthor());
@@ -91,7 +93,7 @@ public class QuoteServiceImpl implements QuoteService {
     @Override
     public QuoteServiceModel editQuote(String id, QuoteServiceModel quoteServiceModel) {
         Quote quote = this.quoteRepository.findById(id)
-                .orElseThrow(() -> new QuoteNotFoundException("Nqq takuv quote"));
+                .orElseThrow(() -> new QuoteNotFoundException(Constants.QUOTE_ID_NOT_FOUND));
 
         quote.setTitle(quoteServiceModel.getTitle());
         quote.setAuthor(quoteServiceModel.getAuthor());

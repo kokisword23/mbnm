@@ -8,6 +8,7 @@ import org.softuni.mbnm.domain.models.view.VideoDetailsViewModel;
 import org.softuni.mbnm.error.VideoNotFoundException;
 import org.softuni.mbnm.service.UserService;
 import org.softuni.mbnm.service.VideoService;
+import org.softuni.mbnm.web.annotations.PageTitle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,6 +38,7 @@ public class VideoController extends BaseController {
 
     @GetMapping("/create")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Create Video")
     public ModelAndView create (Principal principal, ModelAndView modelAndView){
         modelAndView
                 .addObject("model", this.modelMapper
@@ -55,6 +57,7 @@ public class VideoController extends BaseController {
 
     @GetMapping("/all")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("All Videos")
     public ModelAndView showAll(ModelAndView modelAndView){
         List<VideoServiceModel> videos = this.videoService.findAllVideos()
                 .stream()
@@ -67,6 +70,7 @@ public class VideoController extends BaseController {
 
     @GetMapping("/details/{id}")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Video Details")
     public ModelAndView detailsVideo(@PathVariable String id, ModelAndView modelAndView) {
         VideoServiceModel video = this.videoService.findVideoById(id);
         modelAndView.addObject("video",video);
@@ -76,6 +80,7 @@ public class VideoController extends BaseController {
 
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle("Delete Video")
     public ModelAndView deleteVideo(@PathVariable String id, ModelAndView modelAndView) {
         VideoServiceModel videoServiceModel = this.videoService.findVideoById(id);
 
@@ -95,6 +100,7 @@ public class VideoController extends BaseController {
 
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PageTitle("Edit Video")
     public ModelAndView editVideo(@PathVariable String id, ModelAndView modelAndView){
         VideoServiceModel videoServiceModel = this.videoService.findVideoById(id);
 

@@ -3,11 +3,13 @@ package org.softuni.mbnm.web.controllers;
 import org.modelmapper.ModelMapper;
 import org.softuni.mbnm.domain.models.binding.QuoteCreateBindingModel;
 import org.softuni.mbnm.domain.models.service.QuoteServiceModel;
+import org.softuni.mbnm.domain.models.view.QuoteAllViewModel;
 import org.softuni.mbnm.domain.models.view.QuoteDetailsViewModel;
 import org.softuni.mbnm.domain.models.view.UserProfileViewModel;
 import org.softuni.mbnm.error.QuoteNotFoundException;
 import org.softuni.mbnm.service.QuoteService;
 import org.softuni.mbnm.service.UserService;
+import org.softuni.mbnm.web.annotations.PageTitle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,6 +39,7 @@ public class QuoteController extends BaseController {
 
     @GetMapping("/create")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Create Quote")
     public ModelAndView create (Principal principal, ModelAndView modelAndView){
         modelAndView
                 .addObject("model", this.modelMapper
@@ -55,6 +58,7 @@ public class QuoteController extends BaseController {
 
     @GetMapping("/all")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("All Quotes")
     public ModelAndView showAll(ModelAndView modelAndView){
         List<QuoteServiceModel> quotes = this.quoteService.findAllQuotes()
                 .stream()
@@ -67,6 +71,7 @@ public class QuoteController extends BaseController {
 
     @GetMapping("/details/{id}")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Quote Details")
     public ModelAndView detailsQuote(@PathVariable String id, ModelAndView modelAndView) {
         modelAndView.addObject("quote", this.modelMapper.map(this.quoteService.findQuoteById(id), QuoteDetailsViewModel.class));
 
@@ -87,6 +92,7 @@ public class QuoteController extends BaseController {
 
     @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle("Delete Quote")
     public ModelAndView deleteQuoteConfirm(@PathVariable String id) {
         this.quoteService.deleteQuote(id);
 
@@ -95,6 +101,7 @@ public class QuoteController extends BaseController {
 
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PageTitle("Edit Quote")
     public ModelAndView editQuote(@PathVariable String id, ModelAndView modelAndView){
         QuoteServiceModel quoteServiceModel = this.quoteService.findQuoteById(id);
 
@@ -120,6 +127,15 @@ public class QuoteController extends BaseController {
         modelAndView.addObject("statusCode", e.getStatus());
 
         return modelAndView;
+    }
+
+    @GetMapping("/all-quotes")
+    @ResponseBody
+    public List<QuoteAllViewModel> fetchAllQuotes() {
+        return this.quoteService.findAllQuotes()
+                .stream()
+                .map(q -> this.modelMapper.map(q, QuoteAllViewModel.class))
+                .collect(Collectors.toList());
     }
 
 

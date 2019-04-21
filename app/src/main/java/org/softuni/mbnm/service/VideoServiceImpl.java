@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.softuni.mbnm.domain.entities.Video;
 import org.softuni.mbnm.domain.models.service.LogServiceModel;
 import org.softuni.mbnm.domain.models.service.VideoServiceModel;
+import org.softuni.mbnm.error.Constants;
 import org.softuni.mbnm.error.VideoNotFoundException;
 import org.softuni.mbnm.repository.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class VideoServiceImpl implements VideoService {
 
+    private Constants constants;
     private final LogService logService;
     private final VideoRepository videoRepository;
     private final ModelMapper modelMapper;
@@ -47,7 +49,7 @@ public class VideoServiceImpl implements VideoService {
     public VideoServiceModel findVideoByTitle(String title) {
         return this.videoRepository.findByTitle(title)
                 .map(v -> this.modelMapper.map(v, VideoServiceModel.class))
-                .orElseThrow(() -> new VideoNotFoundException("Nqq video s takuv title"));
+                .orElseThrow(() -> new VideoNotFoundException(Constants.VIDEO_NOT_FOUND));
     }
 
     @Override
@@ -62,13 +64,13 @@ public class VideoServiceImpl implements VideoService {
     public VideoServiceModel findVideoById(String id) {
         return this.videoRepository.findById(id)
                 .map(v -> this.modelMapper.map(v, VideoServiceModel.class))
-                .orElseThrow(() -> new VideoNotFoundException("Nqq video s takova id"));
+                .orElseThrow(() -> new VideoNotFoundException(Constants.VIDEO_ID_NOT_FOUND));
     }
 
     @Override
     public void deleteVideo(String id) {
         Video video = this.videoRepository.findById(id)
-                .orElseThrow(() -> new VideoNotFoundException("Nqma takova video"));
+                .orElseThrow(() -> new VideoNotFoundException(Constants.VIDEO_ID_NOT_FOUND));
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername(video.getUploader().toLowerCase());
@@ -83,7 +85,7 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public VideoServiceModel editVideo(String id, VideoServiceModel videoServiceModel) {
         Video video = this.videoRepository.findById(id)
-                .orElseThrow(() -> new VideoNotFoundException("Nqq takova video"));
+                .orElseThrow(() -> new VideoNotFoundException(Constants.VIDEO_ID_NOT_FOUND));
 
         video.setTitle(videoServiceModel.getTitle());
         video.setUploader(videoServiceModel.getUploader());

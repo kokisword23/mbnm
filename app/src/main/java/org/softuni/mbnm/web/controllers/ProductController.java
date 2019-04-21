@@ -6,6 +6,7 @@ import org.softuni.mbnm.domain.models.service.ProductServiceModel;
 import org.softuni.mbnm.domain.models.view.UserProfileViewModel;
 import org.softuni.mbnm.service.ProductService;
 import org.softuni.mbnm.service.UserService;
+import org.softuni.mbnm.web.annotations.PageTitle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,7 @@ public class ProductController extends BaseController{
 
     @GetMapping("/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle("Create Product")
     public ModelAndView create(Principal principal, ModelAndView modelAndView){
         modelAndView
                 .addObject("model", this.modelMapper
@@ -51,6 +53,7 @@ public class ProductController extends BaseController{
 
     @GetMapping("/all")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("All Products")
     public ModelAndView all(ModelAndView modelAndView){
         List<ProductServiceModel> products = this.productService.findAllProducts();
 
@@ -61,6 +64,7 @@ public class ProductController extends BaseController{
 
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle("Delete Product")
     public ModelAndView deleteQuote(@PathVariable String id, ModelAndView modelAndView) {
         ProductServiceModel productServiceModel = this.productService.findById(id);
 

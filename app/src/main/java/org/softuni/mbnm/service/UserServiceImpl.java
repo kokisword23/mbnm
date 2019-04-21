@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.softuni.mbnm.domain.entities.User;
 import org.softuni.mbnm.domain.models.service.LogServiceModel;
 import org.softuni.mbnm.domain.models.service.UserServiceModel;
+import org.softuni.mbnm.error.Constants;
 import org.softuni.mbnm.error.UserNotFoundException;
 import org.softuni.mbnm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.softuni.mbnm.error.Constants.USERNAME_NOT_FOUND;
+
 @Service
 public class UserServiceImpl implements UserService {
 
+    private Constants constants;
     private final LogService logService;
     private final UserRepository userRepository;
     private final RoleService roleService;
@@ -65,30 +69,30 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.userRepository
                 .findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
+                .orElseThrow(() -> new UsernameNotFoundException(Constants.USERNAME_NOT_FOUND));
     }
 
     @Override
     public UserServiceModel findUserByUserName(String username) {
         return this.userRepository.findByUsername(username)
                 .map(u -> this.modelMapper.map(u, UserServiceModel.class))
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
+                .orElseThrow(() -> new UsernameNotFoundException(Constants.USERNAME_NOT_FOUND));
     }
 
     @Override
     public UserServiceModel findUserById(String id) {
         return this.userRepository.findById(id)
                 .map(u -> this.modelMapper.map(u, UserServiceModel.class))
-                .orElseThrow(() -> new UsernameNotFoundException("Nqq takuv user s tva id"));
+                .orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
     }
 
     @Override
     public UserServiceModel editUserProfile(UserServiceModel userServiceModel, String oldPassword) {
         User user = this.userRepository.findByUsername(userServiceModel.getUsername())
-                .orElseThrow(()-> new UsernameNotFoundException("Username not found!"));
+                .orElseThrow(()-> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
         if (!this.bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new IllegalArgumentException("Incorrect password!");
+            throw new IllegalArgumentException(Constants.PASSWORD_IS_INCORRECT);
         }
 
         user.setPassword(!"".equals(userServiceModel.getPassword()) ?
@@ -132,7 +136,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void makeAdmin(String id) {
         User user = this.userRepository.findById(id)
-                    .orElseThrow(() -> new UsernameNotFoundException("Nqma takova id!"));
+                    .orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
         UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
         userServiceModel.getAuthorities().clear();
@@ -153,7 +157,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void makeUser(String id) {
         User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("Nqma takova id!!"));
+                .orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
         UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
         userServiceModel.getAuthorities().clear();

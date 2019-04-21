@@ -7,6 +7,7 @@ import org.softuni.mbnm.domain.models.service.RoleServiceModel;
 import org.softuni.mbnm.domain.models.service.UserServiceModel;
 import org.softuni.mbnm.domain.models.view.UserProfileViewModel;
 import org.softuni.mbnm.service.UserService;
+import org.softuni.mbnm.web.annotations.PageTitle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,6 +41,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
+    @PageTitle("Register")
     public ModelAndView register() {
         return super.view("user/register");
     }
@@ -58,6 +60,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/login")
     @PreAuthorize("isAnonymous()")
+    @PageTitle("Login")
     public ModelAndView login() {
         return super.view("user/login");
     }
@@ -73,6 +76,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/edit")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Edit User")
     public ModelAndView editProfile(Principal principal, ModelAndView modelAndView) {
         modelAndView
                 .addObject("model", this.modelMapper.map(this.userService.findUserByUserName(principal.getName()), UserProfileViewModel.class));
@@ -94,6 +98,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle("All users")
     public ModelAndView showAllUsers(ModelAndView modelAndView){
         List<UserServiceModel> users = this.userService.findAllUsers()
                 .stream()
@@ -110,6 +115,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle("Delete User")
     public ModelAndView deleteUser(@PathVariable String id, ModelAndView modelAndView) {
         UserServiceModel userServiceModel = this.userService.findUserById(id);
 
@@ -127,7 +133,6 @@ public class UserController extends BaseController {
         return super.redirect("/users/all");
     }
 
-    //TODO why not working ?!?
     @PostMapping("/set-admin/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView setAdminRole(@PathVariable String id) {

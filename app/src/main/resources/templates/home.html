@@ -55,7 +55,7 @@
         $('#toChange').empty();
         $('#toChange').append('<a id="quotes" href="/quotes/all" class="btn bg-hero mt-5 ml-5 glow-button">Show all Quotes</a>');
         $('#toChange').append('<a href="/videos/all" class="btn bg-hero mt-5 ml-5 glow-button">Show all Videos</a>');
-        fetch('all-quotes')
+        fetch('/quotes/all-quotes')
             .then(response => response.json())
             .then((json) => {
                 if (json.length === 0) {
