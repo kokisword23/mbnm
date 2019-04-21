@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <label for="add-quote-description" class="mb-1">Description</label>
                     <textarea name="description" id="add-quote-description" cols="41" rows="5"
-                              th:text="${quote.description}" disabled></textarea>
+                              th:utext="${quote.description}" disabled></textarea>
                 </div>
                 <hr class="hr-2 bg-dark">
                 <div class="button-holder d-flex justify-content-center">

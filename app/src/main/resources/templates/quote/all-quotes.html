@@ -27,15 +27,15 @@
                 <tbody>
                 <th:block th:each="quotes, iter : ${quotes}">
                     <tr class="row mx-auto">
-                        <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
+                        <th class="col-md-1 text-center" th:utext="${iter.index + 1}"></th>
                         <td class="col-md-3">
                             <div class="text-center"><img th:src="${quotes.imgUrl}" width="40" height="40"
                                                           alt="quotes">
                             </div>
                         </td>
-                        <td class="col-md-3 text-center" th:text="${quotes.title}"></td>
-                        <td class="col-md-2 text-center" th:text="${quotes.author}"></td>
-                        <td class="col-md-2 text-center" th:text="${quotes.description}"></td>
+                        <td class="col-md-3 text-center" th:utext="${quotes.title}"></td>
+                        <td class="col-md-2 text-center" th:utext="${quotes.author}"></td>
+                        <td class="col-md-2 text-center" th:utext="${quotes.description}"></td>
                         <td class="col-md-3 text-center">
                             <a th:href="@{/quotes/details/{id}(id=${quotes.id})}"
                                class="btn btn-secondary glow-button font-weight-bold text-white">Details</a>

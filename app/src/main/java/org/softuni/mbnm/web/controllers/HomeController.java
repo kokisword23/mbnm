@@ -18,13 +18,11 @@ import java.util.stream.Collectors;
 public class HomeController extends BaseController {
 
     private final QuoteService quoteService;
-    private final VideoService videoService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public HomeController(QuoteService quoteService, VideoService videoService, ModelMapper modelMapper) {
+    public HomeController(QuoteService quoteService, ModelMapper modelMapper) {
         this.quoteService = quoteService;
-        this.videoService = videoService;
         this.modelMapper = modelMapper;
     }
 

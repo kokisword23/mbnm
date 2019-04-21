@@ -26,12 +26,12 @@
                 <tbody>
                 <th:block th:each="users, iter : ${users}">
                     <tr class="row mx-auto">
-                        <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
-                        <td class="col-md-3 text-center" th:text="${users.username}"></td>
-                        <td class="col-md-2 text-center" th:text="${users.email}"></td>
+                        <th class="col-md-1 text-center" th:utext="${iter.index + 1}"></th>
+                        <td class="col-md-3 text-center" th:utext="${users.username}"></td>
+                        <td class="col-md-2 text-center" th:utext="${users.email}"></td>
                         <th:block th:each="authorities : ${users.authorities}">
                             <td class="col-md-2 text-center"
-                                th:text="${authorities.authority}">
+                                th:utext="${authorities.authority}">
                             </td>
                         </th:block>
 

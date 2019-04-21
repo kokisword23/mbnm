@@ -19,17 +19,17 @@
             </div>
             <div class="row">
                 <div class="col col-md-12 mt-5">
-                    <h1 th:text="'Title: ' + ${video.title}"></h1>
+                    <h1 th:utext="'Title: ' + ${video.title}"></h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col col-md-12">
-                    <h4 th:text="'Author: ' + ${video.uploader}"></h4>
+                    <h4 th:utext="'Author: ' + ${video.uploader}"></h4>
                 </div>
             </div>
             <div class="row">
                 <div class="col col-md-12 mt-3">
-                    <h4 th:text="'Desciption: ' + ${video.description}"></h4>
+                    <h4 th:utext="'Desciption: ' + ${video.description}"></h4>
                 </div>
             <!--</div>-->
             <span style="visibility: hidden">....</span>

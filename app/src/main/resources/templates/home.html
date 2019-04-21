@@ -53,13 +53,14 @@
 
     setTimeout(() => {
         $('#toChange').empty();
-        $('#toChange').append('<a href="/quotes/all" class="btn bg-hero mt-5 ml-5 glow-button">Show all Quotes</a>');
+        $('#toChange').append('<a id="quotes" href="/quotes/all" class="btn bg-hero mt-5 ml-5 glow-button">Show all Quotes</a>');
         $('#toChange').append('<a href="/videos/all" class="btn bg-hero mt-5 ml-5 glow-button">Show all Videos</a>');
         fetch('all-quotes')
             .then(response => response.json())
             .then((json) => {
                 if (json.length === 0) {
-                    $('#toChange').append(`<h1 class="text-center font-weight-bold">There are no quotes !</h1>`)
+                    $('#toChange').append(`<h1 class="text-center mt-3 font-weight-bold">There are no quotes !</h1>`)
+                    $('#quotes').hide();
                 } else {
                     for (let i = 0; i < json.length; i += 4) {
                         $('#toChange').append('<div class="quotes-row row d-flex justify-content-around mt-5">');

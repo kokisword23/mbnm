@@ -8,8 +8,12 @@ import org.softuni.mbnm.error.ProductNameAlreadyExistsException;
 import org.softuni.mbnm.error.ProductNotFoundException;
 import org.softuni.mbnm.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -79,5 +83,19 @@ public class ProductServiceImpl implements ProductService {
         this.logService.seedLogInDB(logServiceModel);
 
         this.productRepository.delete(product);
+    }
+
+    @Scheduled(fixedRate = 500000)
+    private void discount(){
+        ProductServiceModel productServiceModel =
+                this.productRepository.findAll().stream()
+                        .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
+                        .collect(Collectors.toList())
+                        .get(0);
+
+        productServiceModel.setPrice(productServiceModel.getPrice().divide(new BigDecimal("2"),2, RoundingMode.FLOOR));
+        productServiceModel.setDescription(productServiceModel.getDescription() + "!!!Product is on discount!!!");
+
+        this.productRepository.saveAndFlush(this.modelMapper.map(productServiceModel, Product.class));
     }
 }
