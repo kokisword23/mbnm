@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
 @Service
 public class QuoteServiceImpl implements QuoteService {
 
-    private Constants constant;
     private final LogService logService;
     private final QuoteRepository quoteRepository;
     private final ModelMapper modelMapper;
@@ -106,11 +104,6 @@ public class QuoteServiceImpl implements QuoteService {
         logServiceModel.setTime(LocalDateTime.now());
 
         return this.modelMapper.map(this.quoteRepository.saveAndFlush(quote), QuoteServiceModel.class);
-    }
-
-    @Scheduled(fixedRate = 20000)
-    private void oldQuotes(){
-
     }
 
 }

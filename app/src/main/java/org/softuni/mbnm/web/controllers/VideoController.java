@@ -99,7 +99,7 @@ public class VideoController extends BaseController {
     }
 
     @GetMapping("/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PageTitle("Edit Video")
     public ModelAndView editVideo(@PathVariable String id, ModelAndView modelAndView){
         VideoServiceModel videoServiceModel = this.videoService.findVideoById(id);

@@ -100,7 +100,7 @@ public class QuoteController extends BaseController {
     }
 
     @GetMapping("/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PageTitle("Edit Quote")
     public ModelAndView editQuote(@PathVariable String id, ModelAndView modelAndView){
         QuoteServiceModel quoteServiceModel = this.quoteService.findQuoteById(id);
