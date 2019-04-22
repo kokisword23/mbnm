@@ -12,7 +12,7 @@ public class FaviconInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request,
-                           HttpServletResponse response, Object handler, ModelAndView modelAndView){
+                           HttpServletResponse response, Object handler, ModelAndView modelAndView) {
 
         String favicon = "https://i.imgur.com/sxsLvFV.png";
 

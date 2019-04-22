@@ -87,15 +87,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Scheduled(fixedRate = 5000000)
     private void discount(){
-        ProductServiceModel productServiceModel =
-                this.productRepository.findAll().stream()
-                        .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
-                        .collect(Collectors.toList())
-                        .get(0);
 
-        productServiceModel.setPrice(productServiceModel.getPrice().divide(new BigDecimal("2"),2, RoundingMode.FLOOR));
-        productServiceModel.setDescription(productServiceModel.getDescription() + "!!!Product is on discount!!!");
+        int products = this.productRepository.findAll().size();
 
-        this.productRepository.saveAndFlush(this.modelMapper.map(productServiceModel, Product.class));
+        if (products > 0) {
+            ProductServiceModel productServiceModel =
+                    this.productRepository.findAll().stream()
+                            .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
+                            .collect(Collectors.toList())
+                            .get(0);
+
+            productServiceModel.setPrice(productServiceModel.getPrice().multiply(new BigDecimal("0.8"),new MathContext(2)));
+            productServiceModel.setDescription("!!!Product is on discount!!!");
+
+            this.productRepository.saveAndFlush(this.modelMapper.map(productServiceModel, Product.class));
+        }
     }
 }

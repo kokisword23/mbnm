@@ -67,6 +67,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/profile")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Profile")
     public ModelAndView profile(Principal principal, ModelAndView modelAndView){
         modelAndView
                 .addObject("model", this.modelMapper

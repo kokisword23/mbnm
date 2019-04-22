@@ -10,8 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class ApplicationWebConfiguration implements WebMvcConfigurer {
 
-
-    private final TitleInterceptor interceptor;
+   private final TitleInterceptor interceptor;
     private final FaviconInterceptor faviconInterceptor;
 
     @Autowired
